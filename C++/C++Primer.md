@@ -513,7 +513,21 @@ const与指针的类型别名使用时，还原别名来理解const的限定是�
     auto i = 0, *p = &i;   //正确
     auto sz = 0, pi = 3.14 //错误
     ```
-* 初始值为引用时，类型为所引对象的类型
+* 初始值为引用时，类型为所引对象的类型，若想推导出所引对象的引用需要使用auto&
+    ```c++
+    int i=0;
+    auto j = i;   //j为int类型
+    auto& j = i;  //j为int&类型
+
+    int& k=i;
+    auto j = k;   //j为int类型
+    auto& j =k;  //j为int&类型
+    ```
+* auto&&,万能引用，当 a 是一个左值时，d 被推导为 int&。如果 a 是右值（例如临时对象），那么 d 会被推导为右值引用类型
+    ```c++
+    int a = 10;
+    auto&& d = a;  // d 的类型是 int&，引用类型
+    ```
 * auto一般会忽略掉顶层const，底层const会保留下来
 * 如果希望判断出的auto是一个顶层const，在auto前加const
 * 还可以将引用的类型设为auto，此时原来的初始化规则仍然适用
